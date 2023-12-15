@@ -9,7 +9,7 @@ class ImageParser():
         self.imagePath = imagePath
         self.parseImage()
 
-    def displayImage(self, cvImage, name):
+    def _displayImage(self, cvImage, name):
         cv2.imshow(name, cvImage)
         cv2.waitKey(0)
     def displayParts(self):
@@ -61,7 +61,7 @@ class ImageParser():
         '''
         # Display images
         for part in parts_of_equation:
-            self.displayImage(part, 'part')
+            self._displayImage(part, 'part')
         '''
 
         return self.parts_of_equation
