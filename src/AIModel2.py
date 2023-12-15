@@ -80,4 +80,4 @@ history = model.fit(
 )
 
 # Save the model
-model.save('symbol_classifier_model.h5')
+model.save('my_model.keras')

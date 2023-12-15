@@ -44,7 +44,9 @@ class ImageParser():
 
         # Find contours in the edge-detected image. A contour is a mathematical representation of an image part's bounding
         contours, _ = cv2.findContours(edges, cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE)
-        self._displayImage(edges, 'name')
+        #sort the contours
+        contours = sorted(contours, key=lambda contour: cv2.boundingRect(contour)[0])
+        #self._displayImage(edges, 'name')
         
 
         # go through the contours to find the bounding box of them and then crop the image based on that
@@ -57,7 +59,7 @@ class ImageParser():
             # resize to size by size for the neural network
             padding_size = 6
             cropped_part = cv2.resize(cropped_part, (size - padding_size, size - padding_size))
-            cropped_part = cv2.copyMakeBorder(cropped_part, padding_size, padding_size, padding_size, padding_size, cv2.BORDER_CONSTANT, value=255)
+            cropped_part = cv2.copyMakeBorder(cropped_part, padding_size//2, padding_size//2, padding_size//2, padding_size//2, cv2.BORDER_CONSTANT, value=255)
             self.parts_of_equation.append(cropped_part)
 
         '''
