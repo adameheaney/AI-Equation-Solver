@@ -5,9 +5,10 @@ class ImageParser():
 
     parts_of_equation = []
 
-    def __init__(self, imagePath: str):
+    def __init__(self, imagePath: str, size):
         self.imagePath = imagePath
-        self.parseImage()
+        self.parseImage(28)
+        self.size = size
 
     def _displayImage(self, cvImage, name):
         cv2.imshow(name, cvImage)
@@ -19,10 +20,10 @@ class ImageParser():
     def changeImagePath(self, imagePath: str):
         self.imagePath = imagePath
         self.parts_of_equation.clear()
-        self.parseImage()
+        self.parseImage(self.size)
 
     #for testing the image parser
-    def parseImage(self) -> list:
+    def parseImage(self, size) -> list:
         image = cv2.imread(self.imagePath)
         if image is None:
             print("NO IMAGE FOUND")
@@ -43,7 +44,7 @@ class ImageParser():
 
         # Find contours in the edge-detected image. A contour is a mathematical representation of an image part's bounding
         contours, _ = cv2.findContours(edges, cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE)
-        self.displayImage(edges, 'name')
+        self._displayImage(edges, 'name')
         
 
         # go through the contours to find the bounding box of them and then crop the image based on that
@@ -51,11 +52,12 @@ class ImageParser():
             x, y, w, h = cv2.boundingRect(contour)
             # skips fragments
             if h * w < 350:
-                print(str(h * w))
                 continue
             cropped_part = grayscaleImage[y:y+h, x:x+w]
-            # resize to 28 by 28 for the neural network
-            cropped_part = cv2.resize(cropped_part, (28, 28))
+            # resize to size by size for the neural network
+            padding_size = 6
+            cropped_part = cv2.resize(cropped_part, (size - padding_size, size - padding_size))
+            cropped_part = cv2.copyMakeBorder(cropped_part, padding_size, padding_size, padding_size, padding_size, cv2.BORDER_CONSTANT, value=255)
             self.parts_of_equation.append(cropped_part)
 
         '''
@@ -67,7 +69,7 @@ class ImageParser():
         return self.parts_of_equation
 
 def main():
-    ip = ImageParser('images/handwrittenequation.jpg')
+    ip = ImageParser('images/handwrittenequation.jpg', 28)
     ip.displayParts()
     cv2.destroyAllWindows()
     ip.changeImagePath('images/handwrittenequation2.jpg')
