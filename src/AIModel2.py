@@ -5,7 +5,7 @@ from tensorflow.keras.optimizers import Adam
 
 
 # Set the input size for black and white images
-input_size = (28, 28, 1)  # Grayscale images have a single channel
+input_size = (54, 54, 1)  # Grayscale images have a single channel
 
 # Create the CNN model
 model = models.Sequential()
@@ -43,7 +43,7 @@ model.summary()
 # Data augmentation for training set
 train_datagen = ImageDataGenerator(
     rescale=1./255,
-    shear_range=0.2,
+    shear_range = 0.2,
     zoom_range=0.2,
     horizontal_flip=False
 )
@@ -58,7 +58,7 @@ test_path = 'Data/Dataset/eval'
 # Create generators for training and testing data
 train_generator = train_datagen.flow_from_directory(
     train_path,
-    target_size=(28, 28),
+    target_size=(54, 54),
     color_mode='grayscale',  # Specify grayscale
     batch_size=32,
     class_mode='categorical'  # Assuming one-hot encoding for classes
@@ -66,7 +66,7 @@ train_generator = train_datagen.flow_from_directory(
 
 test_generator = test_datagen.flow_from_directory(
     test_path,
-    target_size=(28, 28),
+    target_size=(54, 54),
     color_mode='grayscale',
     batch_size=32,
     class_mode='categorical'
@@ -75,7 +75,7 @@ test_generator = test_datagen.flow_from_directory(
 # Train the model
 history = model.fit(
     train_generator,
-    epochs=20,  # You can adjust the number of epochs
+    epochs=10,  # You can adjust the number of epochs
     validation_data=test_generator
 )
 
