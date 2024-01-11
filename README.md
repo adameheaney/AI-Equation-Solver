@@ -7,5 +7,8 @@ Here is the essential outline of how the program will work: First, the program w
 # Result
 The model accurately identified the image 95% of the time.
 
-# Dataset
-There are a total of 14 classes: \[0, 1, 2, 3, 4, 5, 6, 7, 8 ,9, +, -, *(represented by an "x" symbol), /]
+# Datasets
+There are a total of 14 classes: \[0, 1, 2, 3, 4, 5, 6, 7, 8 ,9, +, -, x, /]
+The datasets used:
+- https://www.kaggle.com/datasets/clarencezhao/handwritten-math-symbol-dataset/
+- https://www.kaggle.com/datasets/cesarfawcett/mathsymbolsdataset (for the "/" symbol)
